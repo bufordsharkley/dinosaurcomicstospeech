@@ -1,4 +1,5 @@
 import random
+import HTMLParser
 
 from bs4 import BeautifulSoup
 
@@ -11,10 +12,7 @@ class DinoComics(object):
         self.transcriptions = [x for x in list(soup.transcriptions)
                           if len(x) > 1]
         self.numcomics = len(self.transcriptions)
-
-
-    def bark(self):
-        print 'bark'
+        self.htmlparse = HTMLParser.HTMLParser()
 
     def get_random_dino_comic(self):
         return self.get_dino_comic_by_index(random.randrange(self.numcomics))
@@ -22,11 +20,11 @@ class DinoComics(object):
     def get_dino_comic_by_index(self, dino_index):
         if dino_index >= self.numcomics:
             dino_index = 0
-        return [line.string for line in self.transcriptions[dino_index].panel
+        return [self.htmlparse.unescape(line.string)
+                for line in self.transcriptions[dino_index].panel
                 if ':' in line.string]
 
 
 if __name__ == "__main__":
     dinocomics = DinoComics()
-    dinocomics.bark()
     print dinocomics.get_random_dino_comic()
