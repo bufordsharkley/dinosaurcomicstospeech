@@ -1,4 +1,5 @@
 import time
+import sys
 
 import pyttsx
 
@@ -30,7 +31,7 @@ class DinoComicSayer(object):
         try:
             speaker_id = _VOICES[speaker.lower()]
         except KeyError:
-            print 'ERROR WE DONT HAVE ANYBODY FOR: {}'.format(speaker)
+            print >> sys.stderr, 'ERROR WE DONT HAVE ANYBODY FOR: {}'.format(speaker)
             speaker_id = _VOICES['default']
         self.engine.setProperty('voice', speaker_id)
         self.say(utterance)
